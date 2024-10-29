@@ -14,8 +14,8 @@ test('index has title', async ({ page }) => {
   await expect(page).toHaveTitle('Car Data Home Page');
 });
 
-// Test functionality of posting a new car dataset and checking it is visabile on /cars
-test('Adding a new car dataset', async ({ page }) => {
+// Test functionality of Cars module CRUD functionality on the interface
+test('Testing Cars module CRUD functionality on the interface', async ({ page }) => {
 
   // add car tests
   await page.goto('http://localhost:3000/Cars/add');
@@ -29,13 +29,32 @@ test('Adding a new car dataset', async ({ page }) => {
   await expect(page.getByText('PW Model Test')).toBeVisible()
   await expect(page.getByText('PW Brand Test')).toBeVisible()
 
-  // Delete car tests
+  // Edit car tests
   await page.goto('http://localhost:3000/Cars/');
   await expect(page).toHaveTitle('Car Data Home Page');
   await expect(page.getByText('PW Model Test')).toBeVisible()
   await page
     .getByRole('list')
     .filter({hasText: 'PW Model Test'})
+    .getByText('Update')
+    .click()
+  await expect(page).toHaveTitle('Update Car Data');
+  await page.getByLabel('Update car brand:').fill('PW Brand edit Test')
+  await page.getByLabel('Update car model:').fill('PW Model edit Test')
+  await page.getByText('Update Post').click()
+  await expect(page.getByText('edited')).toBeVisible()
+
+  await page.goto('http://localhost:3000/Cars');
+  await expect(page.getByText('PW Model edit Test')).toBeVisible()
+  await expect(page.getByText('PW Brand edit Test')).toBeVisible()
+
+  // Delete car tests
+  await page.goto('http://localhost:3000/Cars/');
+  await expect(page).toHaveTitle('Car Data Home Page');
+  await expect(page.getByText('PW Model edit Test')).toBeVisible()
+  await page
+    .getByRole('list')
+    .filter({hasText: 'PW Model edit Test'})
     .getByText('Delete')
     .click()
     await expect(page).toHaveTitle('Delete Car Data');
@@ -43,25 +62,9 @@ test('Adding a new car dataset', async ({ page }) => {
   await expect(page.getByText('deleted')).toBeVisible()
 
   await page.goto('http://localhost:3000/Cars');
-  await expect(page.getByText('PW Model Test')).toBeVisible({visible: false})
+  await expect(page.getByText('PW Model edit Test')).toBeVisible({visible: false})
 
 });
-
-// Test functionality of posting a new car dataset and checking it is visabile on /cars
-// test('Deleting a car dataset', async ({ page }) => {
-
-//   await page.goto('http://localhost:3000/Cars/');
-//   await expect(page).toHaveTitle('Car Data Home Page');
-//   await expect(page.getByText('PW Model Test')).toBeVisible()
-//   await page
-//     .getByRole('listitem')
-//     .filter({hasText: 'PW Model Test'})
-//     .getByText('Delete')
-//     .click()
-//     await expect(page).toHaveTitle('Delete Car Data');
-//   await page.getByText('Delete Post').click()
-//   await expect(page.getByText('deleted')).toBeVisible()
-// });
 
 
 
