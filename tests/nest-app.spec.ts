@@ -20,25 +20,30 @@ test('Adding a new car dataset', async ({ page }) => {
   // add car tests
   await page.goto('http://localhost:3000/Cars/add');
   await expect(page).toHaveTitle('Add Car Page');
+  await page.getByPlaceholder('Type here to add car brand...').fill('PW Brand Test')
   await page.getByPlaceholder('Type here to add car model...').fill('PW Model Test')
   await page.getByText('Click here to submit').click()
   await expect(page.getByText('added')).toBeVisible()
 
   await page.goto('http://localhost:3000/Cars');
   await expect(page.getByText('PW Model Test')).toBeVisible()
+  await expect(page.getByText('PW Brand Test')).toBeVisible()
 
   // Delete car tests
   await page.goto('http://localhost:3000/Cars/');
   await expect(page).toHaveTitle('Car Data Home Page');
   await expect(page.getByText('PW Model Test')).toBeVisible()
   await page
-    .getByRole('listitem')
+    .getByRole('list')
     .filter({hasText: 'PW Model Test'})
     .getByText('Delete')
     .click()
     await expect(page).toHaveTitle('Delete Car Data');
   await page.getByText('Delete Post').click()
   await expect(page.getByText('deleted')).toBeVisible()
+
+  await page.goto('http://localhost:3000/Cars');
+  await expect(page.getByText('PW Model Test')).toBeVisible({visible: false})
 
 });
 
