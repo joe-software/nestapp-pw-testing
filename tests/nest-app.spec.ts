@@ -74,7 +74,7 @@ test('Testing Users module CRUD functionality on the interface', async ({ page }
   await expect(page).toHaveTitle('Add User Page');
   await page.getByLabel('Add username: ').fill('PW username Test')
   await page.getByLabel('Add bio: ').fill('PW bio Test')
-  await page.getByLabel('Add age: ').fill('12341234')
+  await page.getByLabel('Add age: ').fill('123')
   // await page.getByPlaceholder('Type here to add car model...').fill('PW Model Test')
   await page.getByText('Click here to submit').click()
   await expect(page.getByText('added')).toBeVisible()
@@ -82,7 +82,7 @@ test('Testing Users module CRUD functionality on the interface', async ({ page }
   await page.goto('http://localhost:3000/Users');
   await expect(page.getByText('PW username Test')).toBeVisible()
   await expect(page.getByText('PW bio Test')).toBeVisible()
-  await expect(page.getByText('12341234')).toBeVisible()
+  await expect(page.getByText('123')).toBeVisible()
 
   // Edit user tests
   await page.goto('http://localhost:3000/Users/');
@@ -96,14 +96,14 @@ test('Testing Users module CRUD functionality on the interface', async ({ page }
   await expect(page).toHaveTitle('Update User Data');
   await page.getByLabel('Update username: ').fill('PW username edit Test')
   await page.getByLabel('Update bio: ').fill('PW bio edit Test')
-  await page.getByLabel('Update age: ').fill('1234123456')
+  await page.getByLabel('Update age: ').fill('124')
   await page.getByText('Update Post').click()
   await expect(page.getByText('edited')).toBeVisible()
 
   await page.goto('http://localhost:3000/Users');
   await expect(page.getByText('PW username edit Test')).toBeVisible()
   await expect(page.getByText('PW bio edit Test')).toBeVisible()
-  await expect(page.getByText('1234123456')).toBeVisible()
+  await expect(page.getByText('124')).toBeVisible()
 
   // Delete user tests
   await page.goto('http://localhost:3000/Users/');
